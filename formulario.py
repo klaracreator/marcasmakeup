@@ -32,8 +32,8 @@ criar_csv()
 st.set_page_config(page_title="Seus tons, nossos produtos", layout="centered")
 
 # Título do aplicativo
-st.title("📋 Desenvolvendo maquiagem juntos")
-st.write("Responda as perguntas abaixo para ajudar na análise de tons de pele e preferências de maquiagem.")
+st.title(" A beleza começa com você: participe!")
+st.write("Ajude-nos a criar um produto perfeito para você! .")
 
 # Formulário
 with st.form(key="form_tom_pele"):
