@@ -11,17 +11,17 @@ def criar_csv():
     if not os.path.exists(csv_filename):
         with open(csv_filename, mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
-            writer.writerow(["Veias", "Acessórios", "Dificuldade Maquiagem", "Bronzeia Fácil", "Estado"])
+            writer.writerow(["Nome Completo", "E-mail", "Veias", "Acessórios", "Dificuldade Maquiagem", "Bronzeia Fácil", "Estado"])
 
 # Função para salvar os dados
-def salvar_respostas(veias, acessorios, dificuldade, bronze, estado):
-    if not estado:
-        st.error("Por favor, preencha o campo 'Estado'.")
+def salvar_respostas(nome, email, veias, acessorios, dificuldade, bronze, estado):
+    if not nome or not email or not estado:
+        st.error("Por favor, preencha todos os campos obrigatórios.")
         return
     
     with open(csv_filename, mode="a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-        writer.writerow([veias, acessorios, dificuldade, bronze, estado])
+        writer.writerow([nome, email, veias, acessorios, dificuldade, bronze, estado])
     
     st.success("Respostas salvas com sucesso!")
 
@@ -33,10 +33,12 @@ st.set_page_config(page_title="Seus tons, nossos produtos", layout="centered")
 
 # Título do aplicativo
 st.title("📋 Desenvolvendo maquiagem juntos")
-st.write("Responda as perguntas abaixo para ajudar na análise de tons de pele.")
+st.write("Responda as perguntas abaixo para ajudar na análise de tons de pele e preferências de maquiagem.")
 
 # Formulário
 with st.form(key="form_tom_pele"):
+    nome = st.text_input("Nome Completo")
+    email = st.text_input("E-mail")
     veias = st.selectbox("Qual é a cor das suas veias?", ["Azul", "Verde", "Roxa", "Outro"])
     acessorios = st.selectbox("Você prefere acessórios dourados ou prateados?", ["Dourado", "Prateado"])
     dificuldade = st.selectbox("Você tem dificuldade em achar maquiagem para você?", ["Sim", "Não"])
@@ -47,7 +49,7 @@ with st.form(key="form_tom_pele"):
     submit_button = st.form_submit_button("Enviar")
 
     if submit_button:
-        salvar_respostas(veias, acessorios, dificuldade, bronze, estado)
+        salvar_respostas(nome, email, veias, acessorios, dificuldade, bronze, estado)
 
 # Exibir respostas coletadas
 if os.path.exists(csv_filename):
@@ -55,3 +57,4 @@ if os.path.exists(csv_filename):
     if not df.empty:
         st.subheader("📊 Dados coletados até agora")
         st.dataframe(df)
+
